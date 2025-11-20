@@ -1,12 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://bp1w6bb4rebvh"]
+[gd_scene load_steps=3 format=3 uid="uid://bp1w6bb4rebvh"]
+
+[ext_resource type="PackedScene" uid="uid://ddabh43hr7cdn" path="res://Models/Personaje.glb" id="1_31hd7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2nhcr"]
+height = 4.0825195
 
 [node name="Personaje" type="Node3D"]
 
 [node name="Personaje" type="CharacterBody3D" parent="."]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 
-[node name="Camera3D" type="Camera3D" parent="Personaje"]
+[node name="Modelo" parent="Personaje" instance=ExtResource("1_31hd7")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Personaje"]
+[node name="Camara" type="Camera3D" parent="Personaje"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.216643, 0.902123)
+current = true
+
+[node name="Colision" type="CollisionShape3D" parent="Personaje"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 1.0087891, 0)
 shape = SubResource("CapsuleShape3D_2nhcr")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.073061, 7.0493994)
+light_energy = 4.134
+omni_range = 23.795
+
+[node name="Modelo2" parent="." instance=ExtResource("1_31hd7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.696792)
