@@ -15,10 +15,10 @@ public partial class MovimientoPrueba : CharacterBody3D
     private Vector3 rot;
     private bool spacePressed;
     
-    private bool lookingAtObject;
-    private GodotObject lookObj;
-    private StaticBody3D lookHoldObj;
-    private Vector3 lookObjScale;
+    private Node3D objLooked;
+    private bool lookingAtHoldObj;
+    private Node3D objHold;
+    private bool holdingObj;
 
     public override void _Ready()
     {
@@ -64,28 +64,44 @@ public partial class MovimientoPrueba : CharacterBody3D
         //Raycast objetos coger
         if (raycast.IsColliding())
         {
-            //Obtiene el objeto y comprueba que no sea null, porsacaso
-            lookObj = raycast.GetCollider();
-            if (lookObj != null)
+            objLooked = (Node3D)raycast.GetCollider();
+            
+            //Si es sujetable, se pasa a ser un staticbody (por ahora, igual lo hago su propia clase) y se cambia la escala para probar
+
+            if (objLooked != null)
             {
-                //Si es sujetable, se pasa a ser un staticbody (por ahora, igual lo hago su propia clase) y se cambia la escala para probar
-                bool holdable = (bool)lookObj.GetMeta("Hold", false);
+                bool holdable = (bool)objLooked.GetMeta("Hold", false);
                 if (holdable)
                 {
-                    if (!lookingAtObject)
+                    lookingAtHoldObj = true;
+                    GD.Print("Looking at holdable object");
+                    //Coger objeto
+                    if (Input.IsActionJustPressed("grab"))
                     {
-                        lookHoldObj = (StaticBody3D)lookObj;
-                        lookObjScale = lookHoldObj.GetScale();
-                        lookHoldObj.SetScale(new Vector3(1,1,1));
-                        lookingAtObject = true;
+                        //Borramos el objeto del mundo
+                        objLooked.GetParent().RemoveChild(objLooked);
+                        objHold = objLooked;
+                        holdingObj = true;
                     }
                 }
             }
         }
-        else if(lookingAtObject)
+        else if(lookingAtHoldObj)
         {
-            lookHoldObj.SetScale(lookObjScale);
-            lookingAtObject = false;
+            lookingAtHoldObj = false;
+        }
+        
+        //Si no estas mirando a ningun objeto agarrable y si estas agarrando uno, lo puedes poner
+        if(holdingObj && !lookingAtHoldObj)
+        {
+            if (Input.IsActionJustPressed("grab"))
+            {
+                GetTree().CurrentScene.AddChild(objHold);
+                objHold.GlobalPosition = camara.GlobalPosition + camara.GlobalTransform.Basis.Z * -5f;
+                holdingObj = false;
+                
+                objHold = null;
+            }
         }
     }
     

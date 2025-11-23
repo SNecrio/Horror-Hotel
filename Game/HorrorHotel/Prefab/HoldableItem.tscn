@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://du5u2s05vfltr"]
+
+[ext_resource type="PackedScene" uid="uid://coo2bfsgu3ayd" path="res://Models/ObjetoPH.glb" id="1_trl2l"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8nfiu"]
+height = 0.58721924
+radius = 1.1303711
+
+[node name="HoldableItem" type="RigidBody3D"]
+metadata/Hold = true
+
+[node name="Model" parent="." instance=ExtResource("1_trl2l")]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.021820068, 0)
+shape = SubResource("CylinderShape3D_8nfiu")
