@@ -5,20 +5,21 @@
 [ext_resource type="PackedScene" uid="uid://cigqe2crxq3id" path="res://Models/Habitacion.glb" id="3_6qyon"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2nhcr"]
-height = 4.0825195
+height = 3.8118896
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6qyon"]
-size = Vector3(34.175, 1, 43.385)
+size = Vector3(44.781544, 1, 45.257805)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jdayy"]
 
 [node name="Personaje" type="Node3D"]
 
-[node name="Personaje" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camara")]
+[node name="Personaje" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camara", "raycast")]
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_1w1q6")
 camara = NodePath("Camara")
+raycast = NodePath("Camara/RayCast3D")
 
 [node name="Modelo" parent="Personaje" instance=ExtResource("1_31hd7")]
 
@@ -26,33 +27,37 @@ camara = NodePath("Camara")
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 8.216643, 1.3165507)
 current = true
 
-[node name="Colision" type="CollisionShape3D" parent="Personaje"]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 1.0087891, 0)
-shape = SubResource("CapsuleShape3D_2nhcr")
+[node name="RayCast3D" type="RayCast3D" parent="Personaje/Camara"]
+transform = Transform3D(1, 0, 0, 0, -6.119594e-07, -1, 0, 14, -4.371139e-08, 0, 0, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 173.40263, 7.0493994)
-light_energy = 89.459
-omni_range = 188.265
+[node name="Colision" type="CollisionShape3D" parent="Personaje"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 1.0759277, 0)
+shape = SubResource("CapsuleShape3D_2nhcr")
 
 [node name="Modelo2" parent="." instance=ExtResource("1_31hd7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.696792)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Habitacion" type="StaticBody3D" parent="."]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.314, 86, 2.059)
 
-[node name="Habitacion" parent="StaticBody3D" instance=ExtResource("3_6qyon")]
+[node name="Modelo" parent="Habitacion" instance=ExtResource("3_6qyon")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04491949, -0.063489914, -0.0041007996)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57216454, -23.909676, -0.7155757)
+[node name="Colision" type="CollisionShape3D" parent="Habitacion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1271992, -23.909676, 0.22082758)
 shape = SubResource("BoxShape3D_6qyon")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="Habitacion"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.0785, -9.192916, 1.2475998)
+light_energy = 89.459
+omni_range = 188.265
+
+[node name="Caja" type="StaticBody3D" parent="."]
 transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 3.084, 46.956)
+metadata/Hold = true
 
-[node name="Habitacion2" parent="StaticBody3D2" instance=ExtResource("3_6qyon")]
-metadata/Agarrable = true
+[node name="Modelo" parent="Caja" instance=ExtResource("3_6qyon")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+[node name="Colision" type="CollisionShape3D" parent="Caja"]
 transform = Transform3D(46.325, 0, 0, 0, 46.325, 0, 0, 0, 46.325, 0, 0, 0)
 shape = SubResource("BoxShape3D_jdayy")
