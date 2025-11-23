@@ -55,7 +55,6 @@ omni_range = 188.265
 
 [node name="Caja" type="StaticBody3D" parent="."]
 transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 3.084, 46.956)
-metadata/Hold = true
 
 [node name="Modelo" parent="Caja" instance=ExtResource("3_6qyon")]
 
@@ -64,5 +63,5 @@ transform = Transform3D(46.325, 0, 0, 0, 46.325, 0, 0, 0, 46.325, 0, 0, 0)
 shape = SubResource("BoxShape3D_jdayy")
 
 [node name="HoldableItem" parent="." instance=ExtResource("4_8nfiu")]
-transform = Transform3D(1, 0, 0, 0, 0.8048731, 0.59344697, 0, -0.59344697, 0.8048731, -9.96085, 7.661003, 42.52677)
+transform = Transform3D(1, 0, 0, 0, 0.8048731, 0.59344697, 0, -0.59344697, 0.8048731, -0.17418003, 7.661003, 46.81022)
 mass = 2.0

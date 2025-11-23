@@ -19,6 +19,7 @@ public partial class MovimientoPrueba : CharacterBody3D
     private bool lookingAtHoldObj;
     private Node3D objHold;
     private bool holdingObj;
+    private bool _debugMouseHidden = true;
 
     public override void _Ready()
     {
@@ -102,6 +103,22 @@ public partial class MovimientoPrueba : CharacterBody3D
                 
                 objHold = null;
             }
+        }
+        
+        
+        //Debug
+        if (Input.IsActionJustPressed("_debugCaptureMouse"))
+        {
+            if (_debugMouseHidden)
+            {
+                Input.MouseMode = Input.MouseModeEnum.Visible;
+            }
+            else
+            {
+                Input.MouseMode = Input.MouseModeEnum.Captured;
+            }
+
+            _debugMouseHidden = !_debugMouseHidden;
         }
     }
     
