@@ -5,12 +5,12 @@ public partial class MovimientoPrueba : CharacterBody3D
 {
     [Export] public float MovementSpeed = 40.0f;
     [Export] public float RotationSpeed = 3.0f;
-    [Export] public float MouseSensitivity = .005f;
+    [Export] public float MouseSensitivity = .05f;
     [Export] public Camera3D camara;
     [Export] public RayCast3D raycast;
     
-    private int velZV;
-    private int velZH;
+    private float velZV;
+    private float velZH;
     private Vector3 vel;
     private Vector3 rot;
     private bool spacePressed;
@@ -44,11 +44,20 @@ public partial class MovimientoPrueba : CharacterBody3D
         if (Input.IsKeyPressed(Key.D))
             velZH -= 1;
         
+        //JoyStick
+        velZH = -Input.GetJoyAxis(0, JoyAxis.LeftX);
+        velZV = -Input.GetJoyAxis(0, JoyAxis.LeftY);
+        
         //Input de salto
         if (Input.IsKeyPressed(Key.Space) && IsOnFloor())
             vel.Y += 80f;
         else
             vel.Y -= 5f;
+        
+        //Rotacion stick
+        float velYH = Input.GetJoyAxis(0, JoyAxis.RightX);
+        float velYV = Input.GetJoyAxis(0, JoyAxis.RightY);
+        
         
         //Calculo de movimiento dependiendo de la rotacion
         float forwardX = (float)Math.Sin(rot.Y);
@@ -61,6 +70,15 @@ public partial class MovimientoPrueba : CharacterBody3D
         Velocity = vel;
         Rotation = rot;
         MoveAndSlide();
+        
+        //Input de la camara
+        RotateY(-velYH * MouseSensitivity);
+        //Rotación vertical (pitch) de la cámara
+        float rotationX = camara.Rotation.X - velYV * MouseSensitivity;
+        //Limitar el angulo vertical (-80° a 80°)
+        rotationX = Mathf.Clamp(rotationX, Mathf.DegToRad(-80), Mathf.DegToRad(85));
+        //Aplicar
+        camara.Rotation = new Vector3(rotationX, camara.Rotation.Y, camara.Rotation.Z);
         
         //Raycast objetos coger
         if (raycast.IsColliding())
